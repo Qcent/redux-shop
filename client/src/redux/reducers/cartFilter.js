@@ -18,18 +18,18 @@ const CartFilter = (state = initialState, action) => {
             return {
                 ...state,
                 cartOpen: true,
-                cart: [...state.cart, action.product]
+                cart: [...state.cart, action.payload.product]
             };
 
         case ADD_MULTIPLE_TO_CART:
             return {
                 ...state,
-                cart: [...state.cart, ...action.products],
+                cart: [...state.cart, ...action.payload.products],
             };
 
         case REMOVE_FROM_CART:
             let newState = state.cart.filter(product => {
-                return product._id !== action._id;
+                return product._id !== action.payload._id;
             });
 
             return {
@@ -43,8 +43,8 @@ const CartFilter = (state = initialState, action) => {
                 ...state,
                 cartOpen: true,
                 cart: state.cart.map(product => {
-                    if (action._id === product._id) {
-                        product.quantity = action.quantity;
+                    if (action.payload._id === product._id) {
+                        product.quantity = action.payload.quantity;
                     }
                     return product;
                 })
