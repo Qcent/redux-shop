@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { useStoreContext } from '../../utils/GlobalState';
-import { UPDATE_PRODUCTS } from '../../utils/actions';
+//import { useStoreContext } from '../../utils/GlobalState';
+//import { UPDATE_PRODUCTS } from '../../utils/actions';
 
 import ProductItem from '../ProductItem';
 import { QUERY_PRODUCTS } from '../../utils/queries';
@@ -9,8 +9,11 @@ import spinner from '../../assets/spinner.gif';
 
 import { idbPromise } from "../../utils/helpers";
 
-function ProductList() {
-  const [state, dispatch] = useStoreContext();
+import { connect } from "react-redux";
+import { updateProducts } from '../../redux/actions';
+
+function ProductList({ state, updateProducts }) {
+  //const [state, dispatch] = useStoreContext();
 
   const { currentCategory } = state;
   
@@ -20,10 +23,7 @@ function ProductList() {
     // if there's data to be stored
     if (data) {
       // let's store it in the global state object
-      dispatch({
-        type: UPDATE_PRODUCTS,
-        products: data.products
-      });
+      updateProducts( data.products );
   
       // but let's also take each product and save it to IndexedDB using the helper function 
       data.products.forEach((product) => {
@@ -34,13 +34,10 @@ function ProductList() {
         // since we're offline, get all of the data from the `products` store
         idbPromise('products', 'get').then((products) => {
           // use retrieved data to set global state for offline browsing
-          dispatch({
-            type: UPDATE_PRODUCTS,
-            products: products
-          });
+          updateProducts( products );
         });
       }
-    }, [data, loading, dispatch]);
+    }, [data, loading, updateProducts]);
   
   function filterProducts() {
     if (!currentCategory) {
@@ -73,4 +70,12 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+const mapStateToProps = state => {
+  return { state: state.ProductFilter };
+};
+
+export default connect(
+  mapStateToProps,
+  { updateProducts }
+)(ProductList);
+
