@@ -20,7 +20,6 @@ const ProductFilter = (state = initialState, action) => {
             };
             // if action type value is the value of `UPDATE_CATEGORIES`, return a new state object with an updated categories array
         case UPDATE_CATEGORIES:
-            console.log(action);
             return {
                 ...state,
                 categories: [...action.payload.categories]

@@ -35,7 +35,7 @@ export const addToCart = content => ({
     type: ADD_TO_CART,
     payload: {
         cartOpen: true,
-        cart: content
+        product: content
     }
 });
 
@@ -43,7 +43,7 @@ export const addMultipleToCart = content => ({
     type: ADD_MULTIPLE_TO_CART,
     payload: {
         cartOpen: true,
-        cart: [...content]
+        products: [...content]
     }
 });
 
