@@ -1,38 +1,25 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-
-import { useStoreContext } from '../../utils/GlobalState';
-import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
+import { connect } from "react-redux";
+import { removeFromCart, updateCartQuantity } from '../../redux/actions';
 import { idbPromise } from "../../utils/helpers";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, removeFromCart, updateCartQuantity }) => {
 
-  const [, dispatch] = useStoreContext();
-
-  const removeFromCart = item => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: item._id
-    });
+  const doRemoveFromCart = item => {
+    removeFromCart(item._id);
     idbPromise('cart', 'delete', { ...item });
   };
 
   const onChange = (e) => {
-    const value = e.target.value;
+    const value = parseInt(e.target.value);
   
-    if (parseInt(value) <= 0) {
-      dispatch({
-        type: REMOVE_FROM_CART,
-        _id: item._id
-      });
+    if (value <= 0) {
+      removeFromCart(item._id);
       idbPromise('cart', 'delete', { ...item });
     } else {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: item._id,
-        quantity: parseInt(value)
-      });
-      idbPromise('cart', 'put', { ...item, quantity: parseInt(value) });
+      updateCartQuantity({ _id: item._id, quantity: value });
+      idbPromise('cart', 'put', { ...item, quantity: value });
     }
   };
 
@@ -59,7 +46,7 @@ const CartItem = ({ item }) => {
           <span
             role="img"
             aria-label="trash"
-            onClick={() => removeFromCart(item)}
+            onClick={() => doRemoveFromCart(item)}
           >
             🗑️
           </span>
@@ -69,4 +56,11 @@ const CartItem = ({ item }) => {
   );
 }
 
-export default CartItem;
+const mapStateToProps = state => {
+  return { state: state.CartFilter };
+};
+
+export default connect(
+  mapStateToProps,
+  { removeFromCart, updateCartQuantity }
+)(CartItem);
