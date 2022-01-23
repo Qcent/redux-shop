@@ -6,8 +6,6 @@ import './style.css';
 import { connect } from "react-redux";
 import { toggleCart, addMultipleToCart } from '../../redux/actions';
 
-//import { useStoreContext } from '../../utils/GlobalState';
-//import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 
 import { useLazyQuery } from '@apollo/client';
@@ -18,7 +16,6 @@ const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 const Cart = ({ state, toggleCart, addMultipleToCart}) => {
 
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  //const [state, dispatch] = useStoreContext();
   // for checkout session success
   useEffect(() => {
     if (data) {
@@ -32,17 +29,12 @@ const Cart = ({ state, toggleCart, addMultipleToCart}) => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
       addMultipleToCart([...cart])
-      //dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     };
 
     if (!state.cart.length) {
       getCart();
     }
   }, [state.cart.length, addMultipleToCart]);
-
- // function toggleCart() {
-   // dispatch({ type: TOGGLE_CART });
-  //}
 
   function calculateTotal() {
     let sum = 0;

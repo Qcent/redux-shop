@@ -56,11 +56,11 @@ const CartItem = ({ item, removeFromCart, updateCartQuantity }) => {
   );
 }
 
-const mapStateToProps = state => {
-  return { state: state.CartFilter };
-};
+//const mapStateToProps = state => {
+ // return { state: state.CartFilter };
+//};
 
 export default connect(
-  mapStateToProps,
+ // mapStateToProps,
   { removeFromCart, updateCartQuantity }
 )(CartItem);
