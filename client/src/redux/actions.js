@@ -9,24 +9,6 @@ import {
     CLEAR_CART,
     TOGGLE_CART
 } from "./actionTypes";
-/*
-let nextTodoId = 0;
-
-export const addTodo = content => ({
-  type: ADD_TODO,
-  payload: {
-    id: ++nextTodoId,
-    content
-  }
-});
-
-export const toggleTodo = id => ({
-  type: TOGGLE_TODO,
-  payload: { id }
-});
-
-export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });
-*/
 
 export const updateProducts = content => ({
     type: UPDATE_PRODUCTS,
@@ -48,58 +30,49 @@ export const updateCurrentCategory = content => ({
         currentCategory: content
     }
 });
-/*
-    return {
-        ...state,
-        currentCategory: action.currentCategory
-    };
 
-case ADD_TO_CART:
-    return {
-        ...state,
+export const addToCart = content => ({
+    type: ADD_TO_CART,
+    payload: {
         cartOpen: true,
-        cart: [...state.cart, action.product]
-    };
+        cart: content
+    }
+});
 
-case ADD_MULTIPLE_TO_CART:
-    return {
-        ...state,
-        cart: [...state.cart, ...action.products],
-    };
-
-case REMOVE_FROM_CART:
-    let newState = state.cart.filter(product => {
-        return product._id !== action._id;
-    });
-
-    return {
-        ...state,
-        cartOpen: newState.length > 0,
-        cart: newState
-    };
-
-case UPDATE_CART_QUANTITY:
-    return {
-        ...state,
+export const addMultipleToCart = content => ({
+    type: ADD_MULTIPLE_TO_CART,
+    payload: {
         cartOpen: true,
-        cart: state.cart.map(product => {
-            if (action._id === product._id) {
-                product.quantity = action.quantity;
-            }
-            return product;
-        })
-    };
+        cart: [...content]
+    }
+});
 
-case CLEAR_CART:
-    return {
-        ...state,
+export const removeFromCart = content => ({
+    type: REMOVE_FROM_CART,
+    payload: {
+        _id: content
+    }
+});
+
+export const updateCartQuantity = content => ({
+    type: UPDATE_CART_QUANTITY,
+    payload: {
+        _id: content.id,
+        quantity: content.quantity
+    }
+});
+
+export const clearCart = () => ({
+    type: CLEAR_CART,
+    payload: {
         cartOpen: false,
         cart: []
-    };
+    }
+});
 
-case TOGGLE_CART:
-    return {
-        ...state,
-        cartOpen: !state.cartOpen
-    };
-*/
+export const toggleCart = cartState => ({
+    type: TOGGLE_CART,
+    payload: {
+        cartOpen: !cartState
+    }
+});
