@@ -14,7 +14,6 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = ({ state, toggleCart, addMultipleToCart}) => {
-
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   // for checkout session success
   useEffect(() => {

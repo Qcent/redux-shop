@@ -18,7 +18,7 @@ const ProductFilter = (state = initialState, action) => {
         case SET_CURRENT_PRODUCT:
             return {
                 ...state,
-                currentProduct: [...action.payload.product]
+                currentProduct: action.payload.product
             };
             // if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
         case UPDATE_PRODUCTS:

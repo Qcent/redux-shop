@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
@@ -14,7 +14,7 @@ import { idbPromise } from "../utils/helpers";
 function Detail({ state, addToCart, removeFromCart, updateCartQuantity, updateProducts, setCurrentProduct }) {
     
     const { id } = useParams();
-    //const [currentProduct, setCurrentProduct] = useState({})
+   
     const { loading, data } = useQuery(QUERY_PRODUCTS);
     const { products, currentProduct, cart } = state;
 
@@ -50,10 +50,6 @@ function Detail({ state, addToCart, removeFromCart, updateCartQuantity, updatePr
                 quantity: parseInt(itemInCart.quantity) + 1
             });
         } else {
-            /*dispatch({
-                type: ADD_TO_CART,
-                product: {...currentProduct, quantity: 1 }
-            });*/
             addToCart({...currentProduct, quantity: 1 });
             // if product isn't in the cart yet, add it to the current shopping cart in IndexedDB
             idbPromise('cart', 'put', {...currentProduct, quantity: 1 });
@@ -74,9 +70,9 @@ function Detail({ state, addToCart, removeFromCart, updateCartQuantity, updatePr
                 <h2> { currentProduct.name } </h2>
                 <p> { currentProduct.description } </p>
                 <p><strong > Price: </strong>${currentProduct.price}{' '} 
-                <button onClick = { addToCart } > Add to Cart </button> 
+                <button onClick = { doAddToCart } > Add to Cart </button> 
                 <button disabled = {!cart.find(p => p._id === currentProduct._id) }
-                onClick = { removeFromCart } >
+                onClick = { doRemoveFromCart } >
                 Remove from Cart </button> </p>
 
                 <img src = { `/images/${currentProduct.image}` }
@@ -91,6 +87,7 @@ function Detail({ state, addToCart, removeFromCart, updateCartQuantity, updatePr
 }
 
 const mapStateToProps = state => {
+    // Details need access to both Cart and Product state props
     return { state: {...state.CartFilter, ...state.ProductFilter }};
   };
   

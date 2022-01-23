@@ -12,15 +12,20 @@ const CartItem = ({ item, removeFromCart, updateCartQuantity }) => {
   };
 
   const onChange = (e) => {
-    const value = parseInt(e.target.value);
-  
-    if (value <= 0) {
+    const value = e.target.value;
+  if(value){
+    if (parseInt(value) <= 0) {
       removeFromCart(item._id);
       idbPromise('cart', 'delete', { ...item });
     } else {
-      updateCartQuantity({ _id: item._id, quantity: value });
-      idbPromise('cart', 'put', { ...item, quantity: value });
+      updateCartQuantity({ _id: item._id, quantity: parseInt(value) });
+      idbPromise('cart', 'put', { ...item, quantity: parseInt(value) });
     }
+  }
+  else{
+    // allows users to delete the number in the input and have a chance to type something new
+    updateCartQuantity({ _id: item._id, quantity: 0 });
+  }
   };
 
   return (
@@ -40,7 +45,7 @@ const CartItem = ({ item, removeFromCart, updateCartQuantity }) => {
           <input
             type="number"
             placeholder="1"
-            value={item.quantity}
+            value={item.quantity || ''}
             onChange={onChange}
           />
           <span
@@ -56,11 +61,11 @@ const CartItem = ({ item, removeFromCart, updateCartQuantity }) => {
   );
 }
 
-//const mapStateToProps = state => {
- // return { state: state.CartFilter };
-//};
+const mapStateToProps = state => {
+  return { state: state.CartFilter };
+};
 
 export default connect(
- // mapStateToProps,
+  mapStateToProps,
   { removeFromCart, updateCartQuantity }
 )(CartItem);

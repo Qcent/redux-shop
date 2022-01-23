@@ -65,7 +65,7 @@ export const removeFromCart = content => ({
 export const updateCartQuantity = content => ({
     type: UPDATE_CART_QUANTITY,
     payload: {
-        _id: content.id,
+        _id: content._id,
         quantity: content.quantity
     }
 });
