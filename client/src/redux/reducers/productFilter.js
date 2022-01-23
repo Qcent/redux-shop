@@ -2,17 +2,25 @@ import {
     UPDATE_PRODUCTS,
     UPDATE_CATEGORIES,
     UPDATE_CURRENT_CATEGORY,
+    SET_CURRENT_PRODUCT
 } from "../actionTypes";
 
 const initialState = {
     products: [],
     categories: [],
-    currentCategory: ''
+    currentCategory: '',
+    currentProduct: ''
 }
 
 const ProductFilter = (state = initialState, action) => {
     switch (action.type) {
-        // if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
+        // if action type value is the value of `SET_CURRENT_PRODUCT`, return a new state object with an updated products array
+        case SET_CURRENT_PRODUCT:
+            return {
+                ...state,
+                currentProduct: [...action.payload.product]
+            };
+            // if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
         case UPDATE_PRODUCTS:
             return {
                 ...state,

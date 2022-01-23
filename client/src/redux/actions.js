@@ -7,8 +7,16 @@ import {
     REMOVE_FROM_CART,
     UPDATE_CART_QUANTITY,
     CLEAR_CART,
-    TOGGLE_CART
+    TOGGLE_CART,
+    SET_CURRENT_PRODUCT
 } from "./actionTypes";
+
+export const setCurrentProduct = content => ({
+    type: SET_CURRENT_PRODUCT,
+    payload: {
+        product: content
+    }
+});
 
 export const updateProducts = content => ({
     type: UPDATE_PRODUCTS,

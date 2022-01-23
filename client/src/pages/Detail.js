@@ -7,7 +7,7 @@ import spinner from '../assets/spinner.gif';
 
 import Cart from '../components/Cart';
 import { connect } from "react-redux";
-import { addToCart, removeFromCart, updateCartQuantity, updateProducts, setCurrentProduct } from '../../redux/actions';
+import { addToCart, removeFromCart, updateCartQuantity, updateProducts, setCurrentProduct } from '../redux/actions';
 
 import { idbPromise } from "../utils/helpers";
 
