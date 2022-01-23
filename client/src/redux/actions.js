@@ -64,15 +64,10 @@ export const updateCartQuantity = content => ({
 
 export const clearCart = () => ({
     type: CLEAR_CART,
-    payload: {
-        cartOpen: false,
-        cart: []
-    }
+    //payload: {}
 });
 
-export const toggleCart = cartState => ({
+export const toggleCart = () => ({
     type: TOGGLE_CART,
-    payload: {
-        cartOpen: !cartState
-    }
+    //payload: {}
 });
